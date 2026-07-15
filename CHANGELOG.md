@@ -1,5 +1,12 @@
 # Changelog
 
+## [26.82.1](https://github.com/Koenkk/zigbee-herdsman-converters/compare/v26.82.0...v26.82.1) (2026-07-15)
+
+
+### Bug Fixes
+
+* **detect:** Detect Shyugj MotionSensor-ZB3.0 as HZC Electric S902M-ZG ([#12696](https://github.com/Koenkk/zigbee-herdsman-converters/issues/12696)) ([67eb45c](https://github.com/Koenkk/zigbee-herdsman-converters/commit/67eb45cac076ffacc986dd1c15fe8d999a9e54ec))
+
 ## [26.82.0](https://github.com/Koenkk/zigbee-herdsman-converters/compare/v26.81.0...v26.82.0) (2026-07-15)
 
 
