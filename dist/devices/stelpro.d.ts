@@ -1,0 +1,53 @@
+import type { DefinitionWithExtend, Fz, KeyValueAny, Tz } from "../lib/types";
+interface StelproHvacThermostat {
+    attributes: {
+        stelproOutdoorTemp: number;
+        power: number;
+        energy: number;
+        stelproSystemMode: number;
+        peakDemandIcon: number;
+    };
+    commands: never;
+    commandResponses: never;
+}
+export declare const tzLocal: {
+    thermostat_outdoor_temperature: {
+        key: string[];
+        convertSet: (entity: import("zigbee-herdsman/dist/controller/model").Endpoint | import("zigbee-herdsman/dist/controller/model").Group, key: string, value: unknown, meta: Tz.Meta) => Promise<void>;
+    };
+    peak_demand_event_icon: {
+        key: string[];
+        convertSet: (entity: import("zigbee-herdsman/dist/controller/model").Endpoint | import("zigbee-herdsman/dist/controller/model").Group, key: string, value: unknown, meta: Tz.Meta) => Promise<{
+            state: {
+                [x: string]: number;
+            };
+        }>;
+    };
+};
+export declare const fzLocal: {
+    power: {
+        cluster: "hvacThermostat";
+        type: ["attributeReport", "readResponse"];
+        convert: (model: import("..").Definition, msg: Fz.Message<"hvacThermostat", StelproHvacThermostat, ["attributeReport", "readResponse"]>, publish: import("../lib/types").Publish, options: import("../lib/types").KeyValue, meta: Fz.Meta) => {
+            power: number;
+        };
+    };
+    energy: {
+        cluster: "hvacThermostat";
+        type: ["attributeReport", "readResponse"];
+        convert: (model: import("..").Definition, msg: Fz.Message<"hvacThermostat", StelproHvacThermostat, ["attributeReport", "readResponse"]>, publish: import("../lib/types").Publish, options: import("../lib/types").KeyValue, meta: Fz.Meta) => {
+            energy: number;
+        };
+    };
+    stelpro_thermostat: {
+        cluster: "hvacThermostat";
+        type: ["attributeReport", "readResponse"];
+        convert: (model: import("..").Definition, msg: Fz.Message<"hvacThermostat", StelproHvacThermostat, ["attributeReport", "readResponse"]>, publish: import("../lib/types").Publish, options: import("../lib/types").KeyValue, meta: Fz.Meta) => KeyValueAny;
+    };
+};
+export declare const stelproExtend: {
+    addStelproHvacThermostatCluster: () => import("../lib/types").ModernExtend;
+};
+export declare const definitions: DefinitionWithExtend[];
+export {};
+//# sourceMappingURL=stelpro.d.ts.map

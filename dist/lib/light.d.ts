@@ -1,0 +1,9 @@
+import type { TClusterAttributeKeys } from "zigbee-herdsman/dist/zspec/zcl/definition/clusters-types";
+import type { Tz, Zh } from "./types";
+export declare function readColorCapabilities(endpoint: Zh.Endpoint): Promise<void>;
+export declare function readColorTempMinMax(endpoint: Zh.Endpoint): Promise<void>;
+export declare function readColorAttributes(entity: Zh.Endpoint | Zh.Group, meta: Tz.Meta, additionalAttributes?: TClusterAttributeKeys<"lightingColorCtrl">): ("colorCapabilities" | "colorLoopActive" | "colorLoopDirection" | "colorLoopStartEnhancedHue" | "colorLoopStoredEnhancedHue" | "colorLoopTime" | "colorMode" | "colorPointBIntensity" | "colorPointBX" | "colorPointBY" | "colorPointGIntensity" | "colorPointGX" | "colorPointGY" | "colorPointRIntensity" | "colorPointRX" | "colorPointRY" | "colorTempPhysicalMax" | "colorTempPhysicalMin" | "colorTemperature" | "compensationText" | "coupleColorTempToLevelMin" | "currentHue" | "currentSaturation" | "currentX" | "currentY" | "driftCompensation" | "enhancedColorMode" | "enhancedCurrentHue" | "numPrimaries" | "options" | "primary1Intensity" | "primary1X" | "primary1Y" | "primary2Intensity" | "primary2X" | "primary2Y" | "primary3Intensity" | "primary3X" | "primary3Y" | "primary4Intensity" | "primary4X" | "primary4Y" | "primary5Intensity" | "primary5X" | "primary5Y" | "primary6Intensity" | "primary6X" | "primary6Y" | "remainingTime" | "startUpColorTemperature" | "whitePointX" | "whitePointY")[];
+export declare function findColorTempRange(entity: Zh.Endpoint | Zh.Group): number[];
+export declare function clampColorTemp(colorTemp: number, colorTempMin: number, colorTempMax: number): number;
+export declare function configure(device: Zh.Device, coordinatorEndpoint: Zh.Endpoint, readColorTempMinMaxAttribute: boolean): Promise<void>;
+//# sourceMappingURL=light.d.ts.map

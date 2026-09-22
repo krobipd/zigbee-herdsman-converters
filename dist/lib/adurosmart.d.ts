@@ -1,0 +1,31 @@
+import type { ModernExtend } from "./types";
+declare function onOffReporting(): ModernExtend;
+declare function electricityMeter(): ModernExtend;
+declare function contactSensor(): ModernExtend[];
+declare function motionSensor(): ModernExtend[];
+declare function multiContactSensor(): ModernExtend[];
+declare function multiMotionSensor(): ModernExtend[];
+declare function siren(): ModernExtend[];
+declare const extend: {
+    contactSensor: typeof contactSensor;
+    motionSensor: typeof motionSensor;
+    dimmerRemote: () => ModernExtend;
+    sceneRemote: () => ModernExtend;
+    multiContactSensor: typeof multiContactSensor;
+    multiMotionSensor: typeof multiMotionSensor;
+    onOffReporting: typeof onOffReporting;
+    electricityMeter: typeof electricityMeter;
+    siren: typeof siren;
+    dimmerLoadControlMode: () => ModernExtend;
+    dimmerSwitchMode: () => ModernExtend;
+    dimmerInvertSwitch: () => ModernExtend;
+    dimmerSceneActivation: () => ModernExtend;
+    dimmerS1DoubleClickScene: () => ModernExtend;
+    dimmerS2DoubleClickScene: () => ModernExtend;
+    dimmerMinBrightnessLevel: () => ModernExtend;
+    dimmerMaxBrightnessLevel: () => ModernExtend;
+    dimmerManualDimmingStepSize: () => ModernExtend;
+    dimmerManualDimmingTime: () => ModernExtend;
+};
+export { extend };
+//# sourceMappingURL=adurosmart.d.ts.map

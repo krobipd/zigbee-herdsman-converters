@@ -1,0 +1,37 @@
+import type { DefinitionWithExtend, Fz } from "../lib/types";
+export interface ManuSpecificCentraliteHumidity {
+    attributes: {
+        /** ID=0x0000 | type=UINT16 | write=true | max=65535 */
+        measuredValue: number;
+    };
+    commands: never;
+    commandResponses: never;
+}
+export declare const centraliteExtend: {
+    addManuSpecificCentraliteHumidityCluster: () => import("../lib/types").ModernExtend;
+};
+export declare const fzLocal: {
+    thermostat_3156105: {
+        cluster: "hvacThermostat";
+        type: ["attributeReport", "readResponse"];
+        convert: (model: import("..").Definition, msg: Fz.Message<"hvacThermostat", undefined, ["attributeReport", "readResponse"]>, publish: import("../lib/types").Publish, options: import("../lib/types").KeyValue, meta: Fz.Meta) => void | import("../lib/types").KeyValueAny | Promise<void>;
+    };
+    d3310_humidity: {
+        cluster: "manuSpecificCentraliteHumidity";
+        type: ["attributeReport", "readResponse"];
+        convert: (model: import("..").Definition, msg: Fz.Message<"manuSpecificCentraliteHumidity", ManuSpecificCentraliteHumidity, ["attributeReport", "readResponse"]>, publish: import("../lib/types").Publish, options: import("../lib/types").KeyValue, meta: Fz.Meta) => {
+            humidity: number;
+        };
+    };
+    restorable_brightness: {
+        cluster: "genLevelCtrl";
+        type: ["attributeReport", "readResponse"];
+        convert: (model: import("..").Definition, msg: Fz.Message<"genLevelCtrl", undefined, ["attributeReport", "readResponse"]>, publish: import("../lib/types").Publish, options: import("../lib/types").KeyValue, meta: Fz.Meta) => {
+            brightness: number;
+        } | {
+            brightness?: undefined;
+        };
+    };
+};
+export declare const definitions: DefinitionWithExtend[];
+//# sourceMappingURL=centralite.d.ts.map
