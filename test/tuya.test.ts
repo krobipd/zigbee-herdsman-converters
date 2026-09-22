@@ -347,4 +347,69 @@ describe("lib/tuya", () => {
             expect(decode("l1", 1200, 300000, 40000)).toStrictEqual({voltage_l1: 120, current_l1: 300, power_l1: 40000});
         });
     });
+
+    describe("TS0001 _TZ3000_p26flek3", () => {
+        // Endpoint layout and cluster list as reported by the device itself: ep1 carries
+        // genOnOff plus the Tuya private clusters 0xE000 (inching) and 0xE001 (switch type,
+        // power-on behaviour); ep242 is green power.
+        const mockSwitchModule = () =>
+            mockDevice({
+                modelID: "TS0001",
+                manufacturerName: "_TZ3000_p26flek3",
+                manufacturerID: 4417,
+                endpoints: [
+                    {ID: 1, profileID: 260, deviceID: 256, inputClusterIDs: [3, 4, 5, 6, 0xe000, 0xe001, 0], outputClusterIDs: [25, 10]},
+                    {ID: 242, profileID: 0xa1e0, deviceID: 97, inputClusterIDs: [], outputClusterIDs: [33]},
+                ],
+            });
+
+        const resolve = async (device: ReturnType<typeof mockDevice>) => {
+            const definition = await findByDevice(device);
+            const exposes = typeof definition.exposes === "function" ? definition.exposes(device, {}) : definition.exposes;
+            // `e.switch()` is a composite without a property of its own, its feature carries `state`.
+            const properties = exposes.flatMap((expose) =>
+                expose.property
+                    ? [expose.property]
+                    : "features" in expose && expose.features
+                      ? expose.features.map((feature) => feature.property)
+                      : [],
+            );
+            return {definition, properties};
+        };
+
+        it("matches the dedicated definition rather than the generic TS0001", async () => {
+            const {definition} = await resolve(mockSwitchModule());
+
+            expect(definition.model).toBe("TS0001_switch_module_3");
+        });
+
+        it("exposes the settings the device reports on its private clusters", async () => {
+            const {properties} = await resolve(mockSwitchModule());
+
+            expect(properties).toEqual(
+                expect.arrayContaining(["state", "power_on_behavior", "switch_type", "indicator_mode", "backlight_mode", "inching_control_set"]),
+            );
+        });
+
+        it("keeps backlight_mode and indicator_mode as two separate settings", async () => {
+            // They write different attributes: tuyaBacklightSwitch (0x5000) and tuyaBacklightMode (0x8001),
+            // so one must not shadow the other.
+            const {properties} = await resolve(mockSwitchModule());
+
+            expect(properties.filter((property) => property === "backlight_mode" || property === "indicator_mode")).toHaveLength(2);
+        });
+
+        it("leaves unlisted TS0001 manufacturers on the plain on/off definition", async () => {
+            const device = mockDevice({modelID: "TS0001", manufacturerName: "_TZ3000_unlistedxx", endpoints: [{ID: 1}]});
+            const {definition, properties} = await resolve(device);
+
+            expect(definition.model).toBe("TS0001");
+            expect(properties).toStrictEqual(["state"]);
+        });
+
+        it("decodes the inching payload the device answers with", () => {
+            // "AAAA" is the value read from 0xE000/0xD003 on the device with inching switched off.
+            expect(tuya.valueConverter.inchingSwitch.from("AAAA")).toStrictEqual({inching_control_1: "DISABLE", inching_time_1: 0});
+        });
+    });
 });

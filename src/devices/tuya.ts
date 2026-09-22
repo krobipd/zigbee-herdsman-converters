@@ -8611,6 +8611,27 @@ export const definitions: DefinitionWithExtend[] = [
             await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ["genOnOff"]);
         },
     },
+    {
+        fingerprint: tuya.fingerprint("TS0001", ["_TZ3000_p26flek3"]),
+        model: "TS0001_switch_module_3",
+        vendor: "Tuya",
+        description: "1 gang switch module with inching",
+        extend: [
+            tuya.modernExtend.tuyaBase(),
+            tuya.modernExtend.tuyaOnOff({
+                powerOnBehavior2: true,
+                switchType: true,
+                indicatorMode: true,
+                backlightModeOffOn: true,
+                inchingSwitch: true,
+            }),
+            tuya.clusters.addTuyaCommonPrivateCluster(),
+        ],
+        configure: async (device, coordinatorEndpoint) => {
+            await tuya.configureMagicPacket(device, coordinatorEndpoint);
+            await reporting.bind(device.getEndpoint(1), coordinatorEndpoint, ["genOnOff"]);
+        },
+    },
 
     ////////////////////////
     // TS0002 DEFINITIONS //
